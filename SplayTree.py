@@ -1,5 +1,6 @@
 import sys
 import time
+import random
 
 class Node:
     def __init__(self, data):
@@ -152,21 +153,21 @@ class SplayTree:
 
     def __pre_order_helper(self, node):
         if node != None:
-            sys.stdout.write(node.data + " ")
+            sys.stdout.write(str(node.data) + " ")
             self.__pre_order_helper(node.left)
             self.__pre_order_helper(node.right)
 
     def __in_order_helper(self, node):
         if node != None:
             self.__in_order_helper(node.left)
-            sys.stdout.write(node.data + " ")
+            sys.stdout.write(str(node.data) + " ")
             self.__in_order_helper(node.right)
 
     def __post_order_helper(self, node):
         if node != None:
             self.__post_order_helper(node.left)
             self.__post_order_helper(node.right)
-            sys.std.out.write(node.data + " ")
+            sys.stdout.write(str(node.data) + " ")
 
     # Pre-Order traversal
     # Вершина->Левое поддерево->Правое поддерево
@@ -190,13 +191,13 @@ class SplayTree:
         if x != None:
             self.__splay(x)
 
-    # найдите узел с максимальным ключом
+    # найдите узел с минимальным ключом
     def minimum(self, node):
         while node.left != None:
             node = node.left
         return node
 
-    # find the node with the maximum key
+    # найдите узел с максимальным ключом
     def maximum(self, node):
         while node.right != None:
             node = node.right
@@ -264,31 +265,232 @@ class SplayTree:
     def pretty_print(self):
         self.__print_helper(self.root, "", True)
 
+    def build_tree(self, arr):
+        for i in arr:
+            self.insert(i)
+
 
 if __name__ == '__main__':
+
+    random.seed(1)
+    a = random.sample(range(10000), 1000)
+    print(a)
+
     tree = SplayTree()
     start = time.perf_counter()
-    tree.insert(33)
+    tree.build_tree(a)
     end = time.perf_counter()
-    print("Время работы алгоритма: ", end - start)
-    tree.insert(44)
-    tree.insert(67)
-    tree.insert(5)
-    tree.insert(89)
-    tree.insert(41)
-    tree.insert(98)
-    tree.insert(1)
-    tree.pretty_print()
-    tree.search_tree(33)
-    tree.search_tree(44)
-    tree.pretty_print()
-    tree.delete_node(89)
-    tree.delete_node(67)
-    tree.delete_node(41)
-    tree.delete_node(5)
-    tree.pretty_print()
-    tree.delete_node(98)
-    tree.delete_node(1)
-    tree.delete_node(44)
-    tree.delete_node(33)
-    tree.pretty_print()
+    file = open("SplayTree_1000.txt", "w")
+    file.write('Running time of the algorithm for creating a tree for a given array:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\nВремя работы алгоритма создания дерева по заданному массиву: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.inorder()
+    end = time.perf_counter()
+    print('\n')
+    file = open("SplayTree_1000.txt", "a")
+    file.write('Running time of the centered tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма центрированного обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.preorder()
+    end = time.perf_counter()
+    print('\n')
+    file = open("SplayTree_1000.txt", "a")
+    file.write('Running time of the direct tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    # print("\n\nВремя работы алгоритма прямого обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.postorder()
+    end = time.perf_counter()
+    print('\n')
+    file = open("SplayTree_1000.txt", "a")
+    file.write('Running time of the reverse tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма обратного обхода дерева: ", end - start, '\n')
+
+    #tree.pretty_print()
+    start = time.perf_counter()
+    tree.search_tree(201)
+    end = time.perf_counter()
+    #tree.pretty_print() # - искомая вершина теперь является корневой вершиной дерева
+    file = open("SplayTree_1000.txt", "a")
+    file.write('Running time of the algorithm for searching for an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма поиска элемента в дереве: ", end - start, '\n')
+
+    #tree.pretty_print()
+    start = time.perf_counter()
+    tree.delete_node(201)
+    end = time.perf_counter()
+    #tree.pretty_print()
+    file = open("SplayTree_1000.txt", "a")
+    file.write('Running time of the algorithm for delete an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+
+    #tree.pretty_print()
+    start = time.perf_counter()
+    tree.insert(201)
+    end = time.perf_counter()
+    #tree.pretty_print()
+    file = open("SplayTree_1000.txt", "a")
+    file.write('Running time of the algorithm for insert an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+
+    random.seed(2)
+    a = random.sample(range(100000), 10000)
+
+    tree = SplayTree()
+    start = time.perf_counter()
+    tree.build_tree(a)
+    end = time.perf_counter()
+    file = open("SplayTree_10000.txt", "w")
+    file.write('Running time of the algorithm for creating a tree for a given array:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\nВремя работы алгоритма создания дерева по заданному массиву: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.inorder()
+    end = time.perf_counter()
+    print('\n')
+    file = open("SplayTree_10000.txt", "a")
+    file.write('Running time of the centered tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма центрированного обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.preorder()
+    end = time.perf_counter()
+    print('\n')
+    file = open("SplayTree_10000.txt", "a")
+    file.write('Running time of the direct tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    # print("\n\nВремя работы алгоритма прямого обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.postorder()
+    end = time.perf_counter()
+    print('\n')
+    file = open("SplayTree_10000.txt", "a")
+    file.write('Running time of the reverse tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма обратного обхода дерева: ", end - start, '\n')
+
+    #tree.pretty_print()
+    start = time.perf_counter()
+    tree.search_tree(169)
+    end = time.perf_counter()
+    #tree.pretty_print() # - искомая вершина теперь является корневой вершиной дерева
+    file = open("SplayTree_10000.txt", "a")
+    file.write('Running time of the algorithm for searching for an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма поиска элемента в дереве: ", end - start, '\n')
+
+    #tree.pretty_print()
+    start = time.perf_counter()
+    tree.delete_node(169)
+    end = time.perf_counter()
+    #tree.pretty_print()
+    file = open("SplayTree_10000.txt", "a")
+    file.write('Running time of the algorithm for delete an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+
+    #tree.pretty_print()
+    start = time.perf_counter()
+    tree.insert(169)
+    end = time.perf_counter()
+    #tree.pretty_print()
+    file = open("SplayTree_10000.txt", "a")
+    file.write('Running time of the algorithm for insert an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    
+    random.seed(2)
+    a = random.sample(range(1000000), 100000)
+
+    tree = SplayTree()
+    start = time.perf_counter()
+    tree.build_tree(a)
+    end = time.perf_counter()
+    file = open("SplayTree_100000.txt", "w")
+    file.write('Running time of the algorithm for creating a tree for a given array:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    # print("\nВремя работы алгоритма создания дерева по заданному массиву: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.inorder()
+    end = time.perf_counter()
+    print('\n')
+    file = open("SplayTree_100000.txt", "a")
+    file.write('Running time of the centered tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    # print("\n\nВремя работы алгоритма центрированного обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.preorder()
+    end = time.perf_counter()
+    print('\n')
+    file = open("SplayTree_100000.txt", "a")
+    file.write('Running time of the direct tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    # print("\n\nВремя работы алгоритма прямого обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.postorder()
+    end = time.perf_counter()
+    print('\n')
+    file = open("SplayTree_100000.txt", "a")
+    file.write('Running time of the reverse tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    # print("\n\nВремя работы алгоритма обратного обхода дерева: ", end - start, '\n')
+
+    # tree.pretty_print()
+    start = time.perf_counter()
+    tree.search_tree(191)
+    end = time.perf_counter()
+    # tree.pretty_print() # - искомая вершина теперь является корневой вершиной дерева
+    file = open("SplayTree_100000.txt", "a")
+    file.write('Running time of the algorithm for searching for an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    # print("\n\nВремя работы алгоритма поиска элемента в дереве: ", end - start, '\n')
+
+    # tree.pretty_print()
+    start = time.perf_counter()
+    tree.delete_node(191)
+    end = time.perf_counter()
+    # tree.pretty_print()
+    file = open("SplayTree_100000.txt", "a")
+    file.write('Running time of the algorithm for delete an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+
+    # tree.pretty_print()
+    start = time.perf_counter()
+    tree.insert(191)
+    end = time.perf_counter()
+    # tree.pretty_print()
+    file = open("SplayTree_100000.txt", "a")
+    file.write('Running time of the algorithm for insert an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()

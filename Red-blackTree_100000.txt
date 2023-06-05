@@ -1,0 +1,18 @@
+Running time of the algorithm for creating a tree for a given array:
+1.2982162
+Running time of the centered tree traversal algorithm:
+0.6048087
+Running time of the direct tree traversal algorithm:
+0.7005336999999998
+Running time of the reverse tree traversal algorithm:
+0.8819041999999997
+Running time of the algorithm for searching for an element in the tree:
+4.5300000000025875e-05
+Running time of the algorithm for deleting an element in the tree:
+8.590000000019415e-05
+Running time of the algorithm for insert an element in the tree:
+3.2700000000218665e-05
+Running time of the algorithm for merging 2 trees:
+7.350000000005963e-05
+Running time of the algorithm for split operation in the tree:
+8.640000000026404e-05

@@ -1,5 +1,5 @@
 import time
-
+import random
 class Node:
 	def __init__(self, value):
 		self.value = value
@@ -13,194 +13,81 @@ class CartesianSearchTree:
 		self.data_type = data_type
 
 	def insert(self, value):
-		if self.root is None:
+		if not self.root:
 			self.root = Node(value)
-			return
-
-		if self.data_type == 'numeric':
-			node = Node(value)
-			curr = self.root
-
-			while curr.right is not None and curr.right.value > node.value:
-				curr = curr.right
-
-			if curr.right is None:
-				node.parent = curr
-				curr.right = node
-			else:
-				node.left = curr.right
-				node.left.parent = node
-				node.parent = curr
-				curr.right = node
-
 		else:
-			words = value.split(' ')
-			node = Node(words[0])
-			curr = self.root
+			self._insert(value, self.root)
 
-			while curr.right is not None and curr.right.value.split(' ')[0] > words[0]:
-				curr = curr.right
-
-			if curr.right is None:
-				node.parent = curr
-				curr.right = node
+	def _insert(self, value, node):
+		if value < node.value:
+			if not node.left:
+				node.left = Node(value)
 			else:
-				node.left = curr.right
-				node.left.parent = node
-				node.parent = curr
-				curr.right = node
+				self._insert(value, node.left)
+		elif value >= node.value:
+			if not node.right:
+				node.right = Node(value)
+			else:
+				self._insert(value, node.right)
 
-	def search(self, value):
-		if self.root is None:
-			return False
-
-		if self.data_type == 'numeric':
-			curr = self.root
-
-			while curr is not None and curr.value != value:
-				if value < curr.value:
-					curr = curr.left
-				else:
-					curr = curr.right
-
-			if curr is not None:
+	def find(self, value):
+		current_node = self.root
+		while current_node is not None:
+			if value == current_node.value:
 				return True
+			elif value < current_node.value:
+				current_node = current_node.left
 			else:
-				return False
+				current_node = current_node.right
+		return False
 
-		else:
-			words = value.split(' ')
-			curr = self.root
-
-			while curr is not None and curr.value.split(' ')[0] != words[0]:
-				if words[0] < curr.value.split(' ')[0]:
-					curr = curr.left
-				else:
-					curr = curr.right
-
-			if curr is not None:
-				return True
-			else:
-				return False
-
-	def delete(self, value):
+	def delete(self, val):
+		# Base Case
 		if self.root is None:
 			return
 
-		if self.data_type == 'numeric':
-			curr = self.root
-
-			while curr is not None and curr.value != value:
-				if value < curr.value:
-					curr = curr.left
-				else:
-					curr = curr.right
-
-			if curr is None:
-				return
-
-			if curr.left is None and curr.right is None:
-				if curr.parent is None:
-					self.root = None
-				elif curr.parent.left == curr:
-					curr.parent.left = None
-				else:
-					curr.parent.right = None
-
-			elif curr.left is None or curr.right is None:
-				if curr.parent is None:
-					if curr.left is not None:
-						self.root = curr.left
-					else:
-						self.root = curr.right
-				elif curr.parent.left == curr:
-					if curr.left is not None:
-						curr.parent.left = curr.left
-						curr.left.parent = curr.parent
-					else:
-						curr.parent.left = curr.right
-						curr.right.parent = curr.parent
-				else:
-					if curr.left is not None:
-						curr.parent.right = curr.left
-						curr.left.parent = curr.parent
-					else:
-						curr.parent.right = curr.right
-						curr.right.parent = curr.parent
-
+		# Find the node to be deleted
+		temp = self.root
+		parent = None
+		while temp is not None and temp.value != val:
+			parent = temp
+			if val < temp.value:
+				temp = temp.left
 			else:
-				successor = curr.right
+				temp = temp.right
 
-				while successor.left is not None:
-					successor = successor.left
+			# If node to be deleted is not found
+		if temp is None:
+			return
 
-				curr.value = successor.value
+		# If node to be deleted has one child
+		if temp.left is None:
+			if parent is None:
+				self.root = temp.right
+			elif temp is parent.left:
+				parent.left = temp.right
+			else:
+				parent.right = temp.right
 
-				if successor.parent.left == successor:
-					successor.parent.left = successor.right
-				else:
-					successor.parent.right = successor.right
+			# If node to be deleted has two children
+		elif temp.right is None:
+			if parent is None:
+				self.root = temp.left
+			elif temp is parent.left:
+				parent.left = temp.left
+			else:
+				parent.right = temp.left
 
-				if successor.right is not None:
-					successor.right.parent = successor.parent
-
+			# If node to be deleted has two children
 		else:
-			words = value.split(' ')
-			curr = self.root
-
-			while curr is not None and curr.value.split(' ')[0] != words[0]:
-				if words[0] < curr.value.split(' ')[0]:
-					curr = curr.left
-				else:
-					curr = curr.right
-
-				if curr is None:
-					return
-
-				if curr.left is None and curr.right is None:
-					if curr.parent is None:
-						self.root = None
-					elif curr.parent.left == curr:
-						curr.parent.left = None
-					else:
-						curr.parent.right = None
-
-				elif curr.left is None or curr.right is None:
-					if curr.parent is None:
-						if curr.left is not None:
-							self.root = curr.left
-						else:
-							self.root = curr.right
-					elif curr.parent.left == curr:
-						if curr.left is not None:
-							curr.parent.left = curr.left
-							curr.left.parent = curr.parent
-						else:
-							curr.parent.left = curr.right
-							curr.right.parent = curr.parent
-					else:
-						if curr.left is not None:
-							curr.parent.right = curr.left
-							curr.left.parent = curr.parent
-						else:
-							curr.parent.right = curr.right
-							curr.right.parent = curr.parent
-
-				else:
-					successor = curr.right
-
-					while successor.left is not None:
-						successor = successor.left
-
-					curr.value = successor.value
-
-					if successor.parent.left == successor:
-						successor.parent.left = successor.right
-					else:
-						successor.parent.right = successor.right
-
-					if successor.right is not None:
-						successor.right.parent = successor.parent
+			successor = temp.right
+			while successor.left is not None:
+				successor = successor.left
+			temp.val = successor.val
+			if successor is temp.right:
+				temp.right = successor.right
+			else:
+				successor.Parent.left = successor.right
 
 	def build_from_array(self, arr):
 		for i in arr:
@@ -233,6 +120,7 @@ class CartesianSearchTree:
 			while other_tree.root is not None:
 				self.insert(other_tree.root.value)
 				other_tree.delete(other_tree.root.value)
+
 	def split(self, value):
 		new_tree = CartesianSearchTree(self.data_type)
 
@@ -350,7 +238,262 @@ class CartesianSearchTree:
 
 if __name__ == '__main__':
 	tree = CartesianSearchTree('numeric')
+	random.seed(1)
+	a = random.sample(range(10000), 1000)
+	print(len(a), '\n', a)
+
 	start = time.perf_counter()
-	tree.insert(5)
+	tree.build_from_array(a)
 	end = time.perf_counter()
-	print("Время работы алгоритма: ", end - start)
+	file = open("CartesialTree_1000.txt", "w")
+	file.write('Running time of the algorithm for creating a tree for a given array:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.inorder_traversal(tree.root)
+	end = time.perf_counter()
+	print('\n')
+	file = open("CartesialTree_1000.txt", "a")
+	file.write('Running time of the centered tree traversal algorithm:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.preorder_traversal(tree.root)
+	end = time.perf_counter()
+	print('\n')
+	file = open("CartesialTree_1000.txt", "a")
+	file.write('Running time of the direct tree traversal algorithm:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.postorder_traversal(tree.root)
+	end = time.perf_counter()
+	print('\n')
+	file = open("CartesialTree_1000.txt", "a")
+	file.write('Running time of the reverse tree traversal algorithm:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.find(34)
+	end = time.perf_counter()
+	#if tree.find(202):
+	#	print("Value is in tree")
+	#else:
+	#	print("Value is not in tree")
+	file = open("CartesialTree_1000.txt", "a")
+	file.write('Running time of the algorithm for searching for an element in the tree:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.insert(1)
+	end = time.perf_counter()
+	file = open("CartesialTree_1000.txt", "a")
+	file.write('Running time of the algorithm for insert an element in the tree:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.delete(1)
+	end = time.perf_counter()
+	file = open("CartesialTree_1000.txt", "a")
+	file.write('Running time of the algorithm for deleting an element in the tree:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	other_tree = CartesianSearchTree('numeric')
+	other_tree.build_from_array([1, 3, 5])
+	tree.merge(other_tree)
+	start = time.perf_counter()
+	tree.merge(other_tree)
+	end = time.perf_counter()
+	file = open("CartesialTree_1000.txt", "a")
+	file.write('Running time of the algorithm for merging 2 trees:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	split_tree = tree.split(34)
+	end = time.perf_counter()
+	file = open("CartesialTree_1000.txt", "a")
+	file.write('Running time of the algorithm for split operation in the tree:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	tree = CartesianSearchTree('numeric')
+	random.seed(2)
+	a = random.sample(range(100000), 10000)
+	print(len(a), '\n', a)
+
+	start = time.perf_counter()
+	tree.build_from_array(a)
+	end = time.perf_counter()
+	file = open("CartesialTree_10000.txt", "w")
+	file.write('Running time of the algorithm for creating a tree for a given array:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.inorder_traversal(tree.root)
+	end = time.perf_counter()
+	print('\n')
+	file = open("CartesialTree_10000.txt", "a")
+	file.write('Running time of the centered tree traversal algorithm:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.preorder_traversal(tree.root)
+	end = time.perf_counter()
+	print('\n')
+	file = open("CartesialTree_10000.txt", "a")
+	file.write('Running time of the direct tree traversal algorithm:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.postorder_traversal(tree.root)
+	end = time.perf_counter()
+	print('\n')
+	file = open("CartesialTree_10000.txt", "a")
+	file.write('Running time of the reverse tree traversal algorithm:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.find(34)
+	end = time.perf_counter()
+	#if tree.find(202):
+	#	print("Value is in tree")
+	#else:
+	#	print("Value is not in tree")
+	file = open("CartesialTree_10000.txt", "a")
+	file.write('Running time of the algorithm for searching for an element in the tree:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.insert(1)
+	end = time.perf_counter()
+	file = open("CartesialTree_10000.txt", "a")
+	file.write('Running time of the algorithm for insert an element in the tree:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.delete(1)
+	end = time.perf_counter()
+	file = open("CartesialTree_10000.txt", "a")
+	file.write('Running time of the algorithm for deleting an element in the tree:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	other_tree = CartesianSearchTree('numeric')
+	other_tree.build_from_array([1, 3, 5])
+	tree.merge(other_tree)
+	start = time.perf_counter()
+	tree.merge(other_tree)
+	end = time.perf_counter()
+	file = open("CartesialTree_10000.txt", "a")
+	file.write('Running time of the algorithm for merging 2 trees:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	split_tree = tree.split(34)
+	end = time.perf_counter()
+	file = open("CartesialTree_10000.txt", "a")
+	file.write('Running time of the algorithm for split operation in the tree:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	tree = CartesianSearchTree('numeric')
+	random.seed(3)
+	a = random.sample(range(1000000), 100000)
+	print(len(a), '\n', a)
+
+	start = time.perf_counter()
+	tree.build_from_array(a)
+	end = time.perf_counter()
+	file = open("CartesialTree_100000.txt", "w")
+	file.write('Running time of the algorithm for creating a tree for a given array:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.inorder_traversal(tree.root)
+	end = time.perf_counter()
+	print('\n')
+	file = open("CartesialTree_100000.txt", "a")
+	file.write('Running time of the centered tree traversal algorithm:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.preorder_traversal(tree.root)
+	end = time.perf_counter()
+	print('\n')
+	file = open("CartesialTree_100000.txt", "a")
+	file.write('Running time of the direct tree traversal algorithm:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.postorder_traversal(tree.root)
+	end = time.perf_counter()
+	print('\n')
+	file = open("CartesialTree_100000.txt", "a")
+	file.write('Running time of the reverse tree traversal algorithm:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.find(34)
+	end = time.perf_counter()
+	#if tree.find(202):
+	#	print("Value is in tree")
+	#else:
+	#	print("Value is not in tree")
+	file = open("CartesialTree_100000.txt", "a")
+	file.write('Running time of the algorithm for searching for an element in the tree:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.insert(1)
+	end = time.perf_counter()
+	file = open("CartesialTree_100000.txt", "a")
+	file.write('Running time of the algorithm for insert an element in the tree:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	tree.delete(1)
+	end = time.perf_counter()
+	file = open("CartesialTree_100000.txt", "a")
+	file.write('Running time of the algorithm for deleting an element in the tree:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	other_tree = CartesianSearchTree('numeric')
+	other_tree.build_from_array([1, 3, 5])
+	tree.merge(other_tree)
+	start = time.perf_counter()
+	tree.merge(other_tree)
+	end = time.perf_counter()
+	file = open("CartesialTree_100000.txt", "a")
+	file.write('Running time of the algorithm for merging 2 trees:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()
+
+	start = time.perf_counter()
+	split_tree = tree.split(34)
+	end = time.perf_counter()
+	file = open("CartesialTree_100000.txt", "a")
+	file.write('Running time of the algorithm for split operation in the tree:' + '\n')
+	file.write(str(end - start) + '\n')
+	file.close()

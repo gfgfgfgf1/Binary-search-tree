@@ -1,5 +1,5 @@
 import time
-
+import random
 class Node:
     def __init__(self, key, value=None):
         self.key = key
@@ -90,8 +90,10 @@ class RedBlackTree:
                 current = current.right
 
         if current == self.nil:
+            print('None find')
             return None
         else:
+            print('Find element')
             return current
 
     def tree_minimum(self, node):
@@ -316,7 +318,7 @@ class RedBlackTree:
         if node == None or node == self.nil:
             return
 
-        print(node.key)
+        print(node.key, end = ' ')
         self._preorder_traversal(node.left)
         self._preorder_traversal(node.right)
 
@@ -328,7 +330,7 @@ class RedBlackTree:
             return
 
         self._inorder_traversal(node.left)
-        print(node.key)
+        print(node.key, end = ' ')
         self._inorder_traversal(node.right)
 
     def postorder_traversal(self):
@@ -340,7 +342,7 @@ class RedBlackTree:
 
         self._postorder_traversal(node.left)
         self._postorder_traversal(node.right)
-        print(node.key)
+        print(node.key, end = ' ')
 
     def find_minimum(self):
         if self.root == None or self.root == self.nil:
@@ -355,18 +357,263 @@ class RedBlackTree:
         return self.tree_maximum(self.root).key
 
 if __name__ == '__main__':
-    rbt = RedBlackTree(use_text_values=True)
+    random.seed(1)
+    a = random.sample(range(10000), 1000)
+    #print(len(a), '\n', a, '\n')
+
+    tree = RedBlackTree()
     start = time.perf_counter()
-    rbt.insert("a", 1)
+    tree.build_tree(a)
     end = time.perf_counter()
-    print("Время работы алгоритма: ", end - start)
-    rbt.insert("b", 2)
-    rbt.insert("c", 3)
-    node = rbt.search("a")
-    print(node.key)
-    print()
-    rbt.preorder_traversal()
-    print()
-    rbt.inorder_traversal()
-    print()
-    rbt.postorder_traversal()
+    file = open("Red-blackTree_1000.txt", "w")
+    file.write('Running time of the algorithm for creating a tree for a given array:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\nВремя работы алгоритма создания дерева по заданному массиву: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.inorder_traversal()
+    end = time.perf_counter()
+    file = open("Red-blackTree_1000.txt", "a")
+    file.write('Running time of the centered tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма центрированного обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.preorder_traversal()
+    end = time.perf_counter()
+    file = open("Red-blackTree_1000.txt", "a")
+    file.write('Running time of the direct tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма прямого обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.postorder_traversal()
+    end = time.perf_counter()
+    file = open("Red-blackTree_1000.txt", "a")
+    file.write('Running time of the reverse tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма обратного обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.search(252)
+    end = time.perf_counter()
+    file = open("Red-blackTree_1000.txt", "a")
+    file.write('Running time of the algorithm for searching for an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма поиска элемента в дереве: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.delete(252)
+    end = time.perf_counter()
+    file = open("Red-blackTree_1000.txt", "a")
+    file.write('Running time of the algorithm for deleting an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма удаления элемента в дереве: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.insert(252)
+    end = time.perf_counter()
+    file = open("Red-blackTree_1000.txt", "a")
+    file.write('Running time of the algorithm for insert an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма удаления элемента в дереве: ", end - start, '\n')
+
+    tree2 = RedBlackTree()
+    tree2.build_tree([4, 5, 6])
+    start = time.perf_counter()
+    tree.merge_trees(tree2)
+    end = time.perf_counter()
+    file = open("Red-blackTree_1000.txt", "a")
+    file.write('Running time of the algorithm for merging 2 trees:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма слияния 2 деревьев: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree.split_tree(172)
+    end = time.perf_counter()
+    file = open("Red-blackTree_1000.txt", "a")
+    file.write('Running time of the algorithm for split operation in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+
+    random.seed(2)
+    a = random.sample(range(100000), 10000)
+    #print(len(a), '\n', a, '\n')
+
+    tree_1 = RedBlackTree()
+    start = time.perf_counter()
+    tree_1.build_tree(a)
+    end = time.perf_counter()
+    file = open("Red-blackTree_10000.txt", "w")
+    file.write('Running time of the algorithm for creating a tree for a given array:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\nВремя работы алгоритма создания дерева по заданному массиву: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree_1.inorder_traversal()
+    end = time.perf_counter()
+    file = open("Red-blackTree_10000.txt", "a")
+    file.write('Running time of the centered tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма центрированного обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree_1.preorder_traversal()
+    end = time.perf_counter()
+    file = open("Red-blackTree_10000.txt", "a")
+    file.write('Running time of the direct tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма прямого обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree_1.postorder_traversal()
+    end = time.perf_counter()
+    file = open("Red-blackTree_10000.txt", "a")
+    file.write('Running time of the reverse tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма обратного обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree_1.search(119)
+    end = time.perf_counter()
+    file = open("Red-blackTree_10000.txt", "a")
+    file.write('Running time of the algorithm for searching for an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма поиска элемента в дереве: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree_1.delete(119)
+    end = time.perf_counter()
+    file = open("Red-blackTree_10000.txt", "a")
+    file.write('Running time of the algorithm for deleting an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма удаления элемента в дереве: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree_1.insert(119)
+    end = time.perf_counter()
+    file = open("Red-blackTree_10000.txt", "a")
+    file.write('Running time of the algorithm for insert an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма удаления элемента в дереве: ", end - start, '\n')
+
+    tree_1_2 = RedBlackTree()
+    tree_1_2.build_tree([4, 5, 6])
+    start = time.perf_counter()
+    tree_1.merge_trees(tree_1_2)
+    end = time.perf_counter()
+    file = open("Red-blackTree_10000.txt", "a")
+    file.write('Running time of the algorithm for merging 2 trees:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма слияния 2 деревьев: ", end - start, '\n')
+    
+    start = time.perf_counter()
+    tree_1.split_tree(119)
+    end = time.perf_counter()
+    file = open("Red-blackTree_10000.txt", "a")
+    file.write('Running time of the algorithm for split operation in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+
+    random.seed(3)
+    a = random.sample(range(1000000), 100000)
+    #print(len(a), '\n', a, '\n')
+
+    tree_2 = RedBlackTree()
+    start = time.perf_counter()
+    tree_2.build_tree(a)
+    end = time.perf_counter()
+    file = open("Red-blackTree_100000.txt", "w")
+    file.write('Running time of the algorithm for creating a tree for a given array:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    # print("\nВремя работы алгоритма создания дерева по заданному массиву: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree_2.inorder_traversal()
+    end = time.perf_counter()
+    file = open("Red-blackTree_100000.txt", "a")
+    file.write('Running time of the centered tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    # print("\n\nВремя работы алгоритма центрированного обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree_2.preorder_traversal()
+    end = time.perf_counter()
+    file = open("Red-blackTree_100000.txt", "a")
+    file.write('Running time of the direct tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    # print("\n\nВремя работы алгоритма прямого обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree_2.postorder_traversal()
+    end = time.perf_counter()
+    file = open("Red-blackTree_100000.txt", "a")
+    file.write('Running time of the reverse tree traversal algorithm:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    # print("\n\nВремя работы алгоритма обратного обхода дерева: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree_2.search(77)
+    end = time.perf_counter()
+    file = open("Red-blackTree_100000.txt", "a")
+    file.write('Running time of the algorithm for searching for an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    # print("\n\nВремя работы алгоритма поиска элемента в дереве: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree_2.delete(77)
+    end = time.perf_counter()
+    file = open("Red-blackTree_100000.txt", "a")
+    file.write('Running time of the algorithm for deleting an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма удаления элемента в дереве: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree_2.insert(77)
+    end = time.perf_counter()
+    file = open("Red-blackTree_100000.txt", "a")
+    file.write('Running time of the algorithm for insert an element in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма удаления элемента в дереве: ", end - start, '\n')
+
+    tree_2_2 = RedBlackTree()
+    tree_2_2.build_tree([4, 5, 6])
+    start = time.perf_counter()
+    tree_2.merge_trees(tree_2_2)
+    end = time.perf_counter()
+    file = open("Red-blackTree_100000.txt", "a")
+    file.write('Running time of the algorithm for merging 2 trees:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
+    #print("\n\nВремя работы алгоритма слияния 2 деревьев: ", end - start, '\n')
+
+    start = time.perf_counter()
+    tree_2.split_tree(77)
+    end = time.perf_counter()
+    file = open("Red-blackTree_100000.txt", "a")
+    file.write('Running time of the algorithm for split operation in the tree:' + '\n')
+    file.write(str(end - start) + '\n')
+    file.close()
