@@ -83,11 +83,11 @@ class CartesianSearchTree:
 			successor = temp.right
 			while successor.left is not None:
 				successor = successor.left
-			temp.val = successor.val
+			temp.value = successor.value
 			if successor is temp.right:
 				temp.right = successor.right
 			else:
-				successor.Parent.left = successor.right
+				temp.left = successor.right
 
 	def build_from_array(self, arr):
 		for i in arr:
@@ -238,10 +238,92 @@ class CartesianSearchTree:
 
 if __name__ == '__main__':
 	tree = CartesianSearchTree('numeric')
-	random.seed(1)
-	a = random.sample(range(10000), 1000)
-	print(len(a), '\n', a)
+	x, x1, x2, x3, x4, x5, x6, x7, x8 = 0, 0, 0, 0, 0, 0, 0, 0, 0
+	b = random.choices(range(10000), k=100000)
+	#print(b)
 
+	for i in range(100):
+		random.seed(i)
+		#a = random.sample(range(10000), 1000)
+		a = random.sample(range(20000), 10000)
+		#a = random.sample(range(200000), 100000)
+
+		start = time.perf_counter()
+		tree.build_from_array(a)
+		end = time.perf_counter()
+		x = x + (end - start)
+
+		start = time.perf_counter()
+		tree.inorder_traversal(tree.root)
+		end = time.perf_counter()
+		x1 = x1 + (end - start)
+
+		start = time.perf_counter()
+		tree.preorder_traversal(tree.root)
+		end = time.perf_counter()
+		x2 = x2 + (end - start)
+
+		start = time.perf_counter()
+		tree.postorder_traversal(tree.root)
+		end = time.perf_counter()
+		x3 = x3 + (end - start)
+
+		for j in range(100000):
+			start = time.perf_counter()
+			tree.insert(b[j])
+			end = time.perf_counter()
+			x4 = x4 + (end - start)
+
+			start = time.perf_counter()
+			tree.find(b[j])
+			end = time.perf_counter()
+			# if tree.find(b[j]):
+			#	print("Value is in tree")
+			# else:
+			#	print("Value is not in tree")
+			x5 = x5 + (end - start)
+
+			start = time.perf_counter()
+			tree.delete(b[j])
+			end = time.perf_counter()
+			x6 = x6 + (end - start)
+
+		other_tree = CartesianSearchTree('numeric')
+		other_tree.build_from_array([1, 3, 5])
+		start = time.perf_counter()
+		tree.merge(other_tree)
+		end = time.perf_counter()
+		x7 = x7 + (end - start)
+
+		start = time.perf_counter()
+		split_tree = tree.split(a[i])
+		end = time.perf_counter()
+		x8 = x8 + (end - start)
+
+	#file = open("CartesialTree_1000.txt", "w")
+	file = open("CartesialTree_10000.txt", "w")
+	#file = open("CartesialTree_100000.txt", "w")
+	file.write('Average Running time of the algorithm for creating a tree for a given array:' + '\n')
+	file.write(str(x/100) + '\n')
+	file.write('Average Running time of the centered tree traversal algorithm:' + '\n')
+	file.write(str(x1/100) + '\n')
+	file.write('Average Running time of the direct tree traversal algorithm:' + '\n')
+	file.write(str(x2/100) + '\n')
+	file.write('Average Running time of the reverse tree traversal algorithm:' + '\n')
+	file.write(str(x3/100) + '\n')
+	file.write('Average Running time of the algorithm for insert an element in the tree:' + '\n')
+	file.write(str(x4/100000) + '\n')
+	file.write('Average Running time of the algorithm for searching for an element in the tree:' + '\n')
+	file.write(str(x5/100000) + '\n')
+	file.write('Average Running time of the algorithm for deleting an element in the tree:' + '\n')
+	file.write(str(x6/100000) + '\n')
+	file.write('Average Running time of the algorithm for merging 2 trees:' + '\n')
+	file.write(str(x7/100) + '\n')
+	file.write('Average Running time of the algorithm for split operation in the tree:' + '\n')
+	file.write(str(x8/100) + '\n')
+	file.close()
+
+'''
 	start = time.perf_counter()
 	tree.build_from_array(a)
 	end = time.perf_counter()
@@ -497,3 +579,4 @@ if __name__ == '__main__':
 	file.write('Running time of the algorithm for split operation in the tree:' + '\n')
 	file.write(str(end - start) + '\n')
 	file.close()
+'''
