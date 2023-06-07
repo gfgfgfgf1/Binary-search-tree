@@ -237,7 +237,6 @@ class CartesianSearchTree:
 
 
 if __name__ == '__main__':
-	tree = CartesianSearchTree('numeric')
 	x, x1, x2, x3, x4, x5, x6, x7, x8 = 0, 0, 0, 0, 0, 0, 0, 0, 0
 	b = random.choices(range(10000), k=100000)
 	#print(b)
@@ -245,9 +244,10 @@ if __name__ == '__main__':
 	for i in range(100):
 		random.seed(i)
 		#a = random.sample(range(10000), 1000)
-		a = random.sample(range(20000), 10000)
-		#a = random.sample(range(200000), 100000)
+		#a = random.sample(range(20000), 10000)
+		a = random.sample(range(200000), 100000)
 
+		tree = CartesianSearchTree('numeric')
 		start = time.perf_counter()
 		tree.build_from_array(a)
 		end = time.perf_counter()
@@ -256,16 +256,19 @@ if __name__ == '__main__':
 		start = time.perf_counter()
 		tree.inorder_traversal(tree.root)
 		end = time.perf_counter()
+		print('\n')
 		x1 = x1 + (end - start)
 
 		start = time.perf_counter()
 		tree.preorder_traversal(tree.root)
 		end = time.perf_counter()
+		print('\n')
 		x2 = x2 + (end - start)
 
 		start = time.perf_counter()
 		tree.postorder_traversal(tree.root)
 		end = time.perf_counter()
+		print('\n')
 		x3 = x3 + (end - start)
 
 		for j in range(100000):
@@ -301,8 +304,8 @@ if __name__ == '__main__':
 		x8 = x8 + (end - start)
 
 	#file = open("CartesialTree_1000.txt", "w")
-	file = open("CartesialTree_10000.txt", "w")
-	#file = open("CartesialTree_100000.txt", "w")
+	#file = open("CartesialTree_10000.txt", "w")
+	file = open("CartesialTree_100000.txt", "w")
 	file.write('Average Running time of the algorithm for creating a tree for a given array:' + '\n')
 	file.write(str(x/100) + '\n')
 	file.write('Average Running time of the centered tree traversal algorithm:' + '\n')

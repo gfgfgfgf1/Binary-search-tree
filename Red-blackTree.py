@@ -90,10 +90,10 @@ class RedBlackTree:
                 current = current.right
 
         if current == self.nil:
-            print('None find')
+            #print('None find')
             return None
         else:
-            print('Find element')
+            #print('Find element')
             return current
 
     def tree_minimum(self, node):
@@ -155,7 +155,6 @@ class RedBlackTree:
 
             if node == self.root:
                 break
-
         self.root.color = 0
 
     def fix_delete(self, node):
@@ -231,7 +230,8 @@ class RedBlackTree:
         if y.right != self.nil:
             y.right.parent = node
 
-        y.parent = node.parent
+        if y.parent != None:
+            y.parent = node.parent
 
         if node.parent == None:
             self.root = y
@@ -357,17 +357,17 @@ class RedBlackTree:
         return self.tree_maximum(self.root).key
 
 if __name__ == '__main__':
-    tree = RedBlackTree()
     x, x1, x2, x3, x4, x5, x6, x7, x8 = 0, 0, 0, 0, 0, 0, 0, 0, 0
     b = random.choices(range(10000), k=100000)
     # print(b)
 
     for i in range(100):
         random.seed(i)
-        a = random.sample(range(10000), 1000)
+        #a = random.sample(range(10000), 1000)
         #a = random.sample(range(20000), 10000)
-        #a = random.sample(range(200000), 100000)
+        a = random.sample(range(200000), 100000)
 
+        tree = RedBlackTree()
         start = time.perf_counter()
         tree.build_tree(a)
         end = time.perf_counter()
@@ -376,16 +376,19 @@ if __name__ == '__main__':
         start = time.perf_counter()
         tree.inorder_traversal()
         end = time.perf_counter()
+        print('\n')
         x1 = x1 + (end - start)
 
         start = time.perf_counter()
         tree.preorder_traversal()
         end = time.perf_counter()
+        print('\n')
         x2 = x2 + (end - start)
 
         start = time.perf_counter()
         tree.postorder_traversal()
         end = time.perf_counter()
+        print('\n')
         x3 = x3 + (end - start)
 
         for j in range(100000):
@@ -411,14 +414,14 @@ if __name__ == '__main__':
         end = time.perf_counter()
         x7 = x7 + (end - start)
 
-        start = time.perf_counter()
-        tree.split_tree(a[i])
-        end = time.perf_counter()
-        x8 = x8 + (end - start)
+        #start = time.perf_counter()
+        #tree.split_tree(a[i+2])
+        #end = time.perf_counter()
+        #x8 = x8 + (end - start)
 
-    file = open("Red-blackTree_1000.txt", "w")
+    #file = open("Red-blackTree_1000.txt", "w")
     #file = open("Red-blackTree_10000.txt", "w")
-    # file = open("Red-blackTree_100000.txt", "w")
+    file = open("Red-blackTree_100000.txt", "w")
     file.write('Average Running time of the algorithm for creating a tree for a given array:' + '\n')
     file.write(str(x / 100) + '\n')
     file.write('Average Running time of the centered tree traversal algorithm:' + '\n')
@@ -435,8 +438,8 @@ if __name__ == '__main__':
     file.write(str(x6 / 100000) + '\n')
     file.write('Average Running time of the algorithm for merging 2 trees:' + '\n')
     file.write(str(x7 / 100) + '\n')
-    file.write('Average Running time of the algorithm for split operation in the tree:' + '\n')
-    file.write(str(x8 / 100) + '\n')
+    #file.write('Average Running time of the algorithm for split operation in the tree:' + '\n')
+    #file.write(str(x8 / 100) + '\n')
     file.close()
 
 '''

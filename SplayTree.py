@@ -271,16 +271,16 @@ class SplayTree:
 
 
 if __name__ == '__main__':
-    tree = SplayTree()
     x, x1, x2, x3, x4, x5, x6, x7, x8 = 0, 0, 0, 0, 0, 0, 0, 0, 0
     b = random.choices(range(10000), k=100000)
 
     for i in range(100):
         random.seed(i)
-        a = random.sample(range(10000), 1000)
+        #a = random.sample(range(10000), 1000)
         #a = random.sample(range(20000), 10000)
-        #a = random.sample(range(200000), 100000)
+        a = random.sample(range(200000), 100000)
 
+        tree = SplayTree()
         start = time.perf_counter()
         tree.build_tree(a)
         end = time.perf_counter()
@@ -289,15 +289,18 @@ if __name__ == '__main__':
         start = time.perf_counter()
         tree.inorder()
         end = time.perf_counter()
+        print('\n')
         x1 = x1 + (end - start)
 
         start = time.perf_counter()
         tree.preorder()
         end = time.perf_counter()
+        print('\n')
         x2 = x2 + (end - start)
 
         start = time.perf_counter()
         tree.postorder()
+        print('\n')
         end = time.perf_counter()
         x3 = x3 + (end - start)
 
@@ -319,9 +322,9 @@ if __name__ == '__main__':
             end = time.perf_counter()
             x6 = x6 + (end - start)
 
-    file = open("SplayTree_1000.txt", "w")
+    #file = open("SplayTree_1000.txt", "w")
     #file = open("SplayTree_10000.txt", "w")
-    # file = open("SplayTree_100000.txt", "w")
+    file = open("SplayTree_100000.txt", "w")
     file.write('Average Running time of the algorithm for creating a tree for a given array:' + '\n')
     file.write(str(x / 100) + '\n')
     file.write('Average Running time of the centered tree traversal algorithm:' + '\n')
@@ -336,10 +339,10 @@ if __name__ == '__main__':
     file.write(str(x5 / 100000) + '\n')
     file.write('Average Running time of the algorithm for deleting an element in the tree:' + '\n')
     file.write(str(x6 / 100000) + '\n')
-    file.write('Average Running time of the algorithm for merging 2 trees:' + '\n')
-    file.write(str(x7 / 100) + '\n')
-    file.write('Average Running time of the algorithm for split operation in the tree:' + '\n')
-    file.write(str(x8 / 100) + '\n')
+    #file.write('Average Running time of the algorithm for merging 2 trees:' + '\n')
+    #file.write(str(x7 / 100) + '\n')
+    #file.write('Average Running time of the algorithm for split operation in the tree:' + '\n')
+    #file.write(str(x8 / 100) + '\n')
     file.close()
 
 '''
