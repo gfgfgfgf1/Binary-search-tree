@@ -225,13 +225,6 @@ class SplayTree:
         for i in arr:
             self.insert_node(i)
 
-def print_split_tree(node):
-    if node is None:
-            return
-    print_split_tree(node.left)
-    print(node.value, end=' ')
-    print_split_tree(node.right)
-
 if __name__ == '__main__':
     x, x1, x2, x3, x4, x5, x6, x7, x8 = 0, 0, 0, 0, 0, 0, 0, 0, 0
     b = random.choices(range(10000), k=100000)
@@ -296,8 +289,8 @@ if __name__ == '__main__':
         start = time.perf_counter()
         new_tree1, new_tree2 = tree.split_tree(b[i])
         end = time.perf_counter()
-        #print_split_tree(new_tree1)
-        #print_split_tree(new_tree2)
+        #tree.print_inorder_traversal(new_tree1)
+        #tree.print_inorder_traversal(new_tree2)
         x8 = x8 + (end - start)
 
     #file = open("SplayTree_1000.txt", "w")

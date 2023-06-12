@@ -263,7 +263,7 @@ class RedBlackTree:
         self.build_tree(arr)
 
     def split_tree(self, key):
-        new_tree = RedBlackTree(self.use_text_values)
+        new_tree = RedBlackTree()
         node = self.search(key)
         if node == None:
             return new_tree
@@ -356,6 +356,13 @@ class RedBlackTree:
 
         return self.tree_maximum(self.root).key
 
+def print_split_tree(node):
+    if node is None:
+            return
+    print_split_tree(node.left)
+    print(node.value, end=' ')
+    print_split_tree(node.right)
+
 if __name__ == '__main__':
     x, x1, x2, x3, x4, x5, x6, x7, x8 = 0, 0, 0, 0, 0, 0, 0, 0, 0
     b = random.choices(range(10000), k=100000)
@@ -408,7 +415,10 @@ if __name__ == '__main__':
             x6 = x6 + (end - start)
 
         other_tree = RedBlackTree()
-        other_tree.build_tree([1, 3, 5])
+        #s = list(range(0, 1000))
+        #s = list(range(0, 10000))
+        s = list(range(0, 100000))
+        other_tree.build_tree(s)
         start = time.perf_counter()
         tree.merge_trees(other_tree)
         end = time.perf_counter()
@@ -441,7 +451,6 @@ if __name__ == '__main__':
     #file.write('Average Running time of the algorithm for split operation in the tree:' + '\n')
     #file.write(str(x8 / 100) + '\n')
     file.close()
-
 '''
     tree = RedBlackTree()
     start = time.perf_counter()

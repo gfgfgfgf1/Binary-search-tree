@@ -1,16 +1,16 @@
 Average Running time of the algorithm for creating a tree for a given array:
-0.10252306899999976
+0.09260525099999928
 Average Running time of the centered tree traversal algorithm:
-0.059691320999999214
+0.06591569300000254
 Average Running time of the direct tree traversal algorithm:
-0.05417964400000054
+0.053812794000000046
 Average Running time of the reverse tree traversal algorithm:
-0.056133200000000355
+0.05831743800000114
 Average Running time of the algorithm for insert an element in the tree:
-0.00093013556800002
+0.0008243325070001529
 Average Running time of the algorithm for searching for an element in the tree:
-0.000825013138000279
+0.0007132881970007275
 Average Running time of the algorithm for deleting an element in the tree:
-0.0009629827130002027
+0.0008399019040002279
 Average Running time of the algorithm for merging 2 trees:
-3.222099999817374e-05
+0.11087180199999967
