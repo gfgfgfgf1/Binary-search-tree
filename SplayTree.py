@@ -14,39 +14,38 @@ class SplayTree:
         self.root = None
 
     # поверните влево
-    def __left_rotate(self, element):
-        p = element.right
-        element.right = p.left
-        if p.left != None:
-            p.left.parent = element
-
-        p.parent = element.parent
-        if element.parent == None:
-            self.root = p
-        elif element == element.parent.left:
-            element.parent.left = p
+    @staticmethod
+    def rotate_left(tree, node):
+        right_child = node.right
+        node.right = right_child.left
+        if right_child.left:
+            right_child.left.parent = node
+        right_child.parent = node.parent
+        if node.parent is None:
+            tree.root = right_child
+        elif node == node.parent.left:
+            node.parent.left = right_child
         else:
-            element.parent.right = p
-        p.left = element
-        element.parent = p
+            node.parent.right = right_child
+        right_child.left = node
+        node.parent = right_child
 
     # поверните вправо
-    def __right_rotate(self, element):
-        p = element.left
-        element.left = p.right
-        if p.right != None:
-            p.right.parent = element
-
-        p.parent = element.parent
-        if element.parent == None:
-            self.root = p
-        elif element == element.parent.right:
-            element.parent.right = p
+    @staticmethod
+    def rotate_right(tree, node):
+        left_child = node.left
+        node.left = left_child.right
+        if left_child.right:
+            left_child.right.parent = node
+        left_child.parent = node.parent
+        if node.parent is None:
+            tree.root = left_child
+        elif node == node.parent.right:
+            node.parent.right = left_child
         else:
-            element.parent.left = p
-
-        p.right = element
-        element.parent = p
+            node.parent.left = left_child
+        left_child.right = node
+        node.parent = left_child
 
     # Splaying operation. Он перемещает element к корневой вершине дерева
     def __splay(self, element):
@@ -54,26 +53,26 @@ class SplayTree:
             if element.parent.parent == None:
                 if element == element.parent.left:
                     # zig rotation
-                    self.__right_rotate(element.parent)
+                    self.rotate_right(self, element.parent)
                 else:
                     # zag rotation
-                    self.__left_rotate(element.parent)
+                    self.rotate_left(self, element.parent)
             elif element == element.parent.left and element.parent == element.parent.parent.left:
                 # zig-zig rotation
-                self.__right_rotate(element.parent.parent)
-                self.__right_rotate(element.parent)
+                self.rotate_right(self, element.parent.parent)
+                self.rotate_right(self, element.parent)
             elif element == element.parent.right and element.parent == element.parent.parent.right:
                 # zag-zag rotation
-                self.__left_rotate(element.parent.parent)
-                self.__left_rotate(element.parent)
+                self.rotate_left(self, element.parent.parent)
+                self.rotate_left(self, element.parent)
             elif element == element.parent.right and element.parent == element.parent.parent.left:
                 # zig-zag rotation
-                self.__left_rotate(element.parent)
-                self.__right_rotate(element.parent)
+                self.rotate_left(self, element.parent)
+                self.rotate_right(self, element.parent)
             else:
                 # zag-zig rotation
-                self.__right_rotate(element.parent)
-                self.__left_rotate(element.parent)
+                self.rotate_right(self, element.parent)
+                self.rotate_left(self, element.parent)
 
     def print_preorder_traversal(self, node):
         if node is None:
@@ -99,7 +98,7 @@ class SplayTree:
         self.print_postorder_traversal(node.right)
         print(node.value, end=' ')
 
-    # найдите в дереве ключ k
+    # найдите в дереве element
     # и верните соответствующую вершину
     def search_element_on_tree(self, node, element):
         if not node:
@@ -112,47 +111,11 @@ class SplayTree:
         else:
             return self.search_element_on_tree(node.right, element)
 
-    # найдите узел с минимальным ключом
-    def minimum(self, node):
-        while node.left != None:
-            node = node.left
-        return node
-
     # найдите узел с максимальным ключом
     def maximum(self, node):
         while node.right != None:
             node = node.right
         return node
-
-    # найдите преемника данного узла
-    def successor(self, node):
-        # если правое поддерево не равно null,
-        # преемником является крайняя левая вершина в
-        # правом поддереве
-        if node.right != None:
-            return self.minimum(node.right)
-
-        # else это самый младший предок node, чья
-        # левая дочерняя вершина также является предком node.
-        new_node = node.parent
-        while new_node != None and node == new_node.right:
-            node = new_node
-            new_node = new_node.parent
-        return new_node
-
-    # найти предшественника указанной вершины
-    def predecessor(self, node):
-        # если левое поддерево не равно null,
-        # предшественником является самая правая вершина в
-        # левом поддереве
-        if node.left != None:
-            return self.maximum(node.left)
-
-        new_node = node.parent
-        while new_node != None and node == new_node.left:
-            node = new_node
-            new_node = new_node.parent
-        return new_node
 
     # функция слияния 2 деревьев
     def merge_trees(self, tree1, tree2):
@@ -229,6 +192,12 @@ if __name__ == '__main__':
     x, x1, x2, x3, x4, x5, x6, x7, x8 = 0, 0, 0, 0, 0, 0, 0, 0, 0
     b = random.choices(range(10000), k=100000)
 
+    tree = SplayTree()
+    a = [1, 2, 3, 4, 5]
+    tree.build_tree(a)
+    tree.print_inorder_traversal(tree.root)
+
+'''
     for i in range(100):
         random.seed(i)
         #a = random.sample(range(2000), 1000)
@@ -315,3 +284,4 @@ if __name__ == '__main__':
     file.write('Average Running time of the algorithm for split operation in the tree:' + '\n')
     file.write(str(x8 / 100) + '\n')
     file.close()
+'''
