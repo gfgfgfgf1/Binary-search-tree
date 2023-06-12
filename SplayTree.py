@@ -48,7 +48,7 @@ class SplayTree:
         node.parent = left_child
 
     # Splaying operation. Он перемещает element к корневой вершине дерева
-    def __splay(self, element):
+    def splay(self, element):
         while element.parent != None:
             if element.parent.parent == None:
                 if element == element.parent.left:
@@ -104,7 +104,7 @@ class SplayTree:
         if not node:
             return False
         if node.value == element:
-            self.__splay(node)
+            self.splay(node)
             return True
         elif element < node.value:
             return self.search_element_on_tree(node.left, element)
@@ -126,7 +126,7 @@ class SplayTree:
             return tree1
 
         new_tree = self.maximum(tree1)
-        self.__splay(new_tree)
+        self.splay(new_tree)
         new_tree.right = tree2
         tree2.parent = new_tree
         return new_tree
@@ -168,7 +168,7 @@ class SplayTree:
         else:
             parental_node.right = node
         # splay вершины
-        self.__splay(node)
+        self.splay(node)
 
     # удалить вершину из дерева
     def delete_node(self, element):
