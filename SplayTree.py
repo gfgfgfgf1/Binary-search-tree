@@ -192,12 +192,6 @@ if __name__ == '__main__':
     x, x1, x2, x3, x4, x5, x6, x7, x8 = 0, 0, 0, 0, 0, 0, 0, 0, 0
     b = random.choices(range(10000), k=100000)
 
-    tree = SplayTree()
-    a = [1, 2, 3, 4, 5]
-    tree.build_tree(a)
-    tree.print_inorder_traversal(tree.root)
-
-'''
     for i in range(100):
         random.seed(i)
         #a = random.sample(range(2000), 1000)
@@ -284,4 +278,3 @@ if __name__ == '__main__':
     file.write('Average Running time of the algorithm for split operation in the tree:' + '\n')
     file.write(str(x8 / 100) + '\n')
     file.close()
-'''
